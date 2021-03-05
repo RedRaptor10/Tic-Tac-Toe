@@ -1,0 +1,83 @@
+:root {
+    --fontFamily: Arial;
+    --fontColor: rgb(255,255,255);
+    --backgroundColor: rgb(24,26,27);
+    --border: 1px solid rgb(255,255,255);
+}
+
+body {
+    background: var(--backgroundColor);
+}
+
+#title {
+    font-family: Arial;
+    text-align: center;
+    color: var(--fontColor);
+}
+
+#menu {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+    width: 100%;
+    height: 100%;
+    font-family: var(--fontFamily);
+    font-weight: bold;
+    color: var(--fontColor);
+    margin-bottom: 12px;
+}
+
+#playerNamesForm {
+    width: 100%;
+    text-align: center;
+}
+
+#startGameButton, #rematchButton {
+    background: rgb(32,32,32);
+    padding: 8px;
+    border: var(--border);
+    border-radius: 4px;
+}
+
+#startGameButton:hover, #rematchButton:hover {
+    background: rgb(64,64,64);
+}
+
+#detailsContainer {
+    width: 25%;
+    height: 64px;
+    margin-left: auto;
+    margin-right: auto;
+    margin-bottom: 12px;
+    text-align: center;
+}
+
+#details {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+    font-size: 20px;
+    font-family: var(--fontFamily);
+    font-weight: bold;
+    color: var(--fontColor);
+}
+
+#board {
+    display: flex;
+    flex-wrap: wrap;
+    width: 512px;
+    height: 512px;
+    margin-left: auto;
+    margin-right: auto;
+    border: var(--border);
+}
+
+.space {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-family: var(--fontFamily);
+    font-size: 72px;
+}
