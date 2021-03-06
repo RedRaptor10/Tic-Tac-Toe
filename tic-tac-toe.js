@@ -6,18 +6,21 @@ const Player = () => {
     return playerObj; // Return Player Object
 };
 
-let p1 = Player(), p2 = Player(); // Initialize Player 1 and Player 2 Objects
+let p1 = Player(), p2 = Player(), ai; // Initialize Player 1 and Player 2 Objects
 const gameContainer = document.getElementById('gameContainer');
 
 // Menu Module
 const menu = (() => {
     const startGame = () => {
+        ai = document.getElementById('ai').checked;
         p1.setName(document.getElementById('p1name').value);
-        p2.setName(document.getElementById('p2name').value);
+        if (ai) { p2.setName('AI'); }
+        else { p2.setName(document.getElementById('p2name').value); }
         gameContainer.innerHTML = '';
         createDetails();
         createBoard(gameBoard);
         game.updateDetails();
+        if (ai && !game.p) { game.aiTurn(); } // Check if AI turn upon start
     };
     return { startGame }
 })();
@@ -31,7 +34,7 @@ const gameBoard = (() => {
 // Game Module
 const game = (() => {
     let p = Math.floor(Math.random() * 2); // Randomly set current player (between 0 and 1)
-    let currentPlayer = () => { return p ? p1.name : p2.name; };
+    let currentPlayer = () => { return p ? p1.name : p2.name; }; // Player 1 (p == 1), Player 2 (p == 0)
     let tieGame = false;
     let gameOver = false;
 
@@ -142,9 +145,47 @@ const game = (() => {
         createDetails();
         createBoard(gameBoard);
         updateDetails();
+        if (ai && !p) { aiTurn(); } // Check if AI turn upon start
     };
 
-    return { currentPlayer, markBoard, checkWin, updateDetails, endTurn, clearBoard };
+    const aiTurn = () => {
+        let validPlay = false;
+        let mark = p ? 'O' : 'X'; // Player 1 = 'O', Player 2 = 'X'
+        let spaces = document.querySelectorAll('.space');
+        let pos, space, x, y;
+
+        if (!gameOver) {
+            // Set timeout to 1 second (1000 ms) before AI turn
+            setTimeout(() => {
+                while (!validPlay) {
+                    pos = Math.floor(Math.random() * 9); // Randomly select space (between 0 and 8)
+                    space = spaces[pos];
+
+                    // Get x based on pos
+                    if (pos == 0 || pos == 3 || pos == 6) { x = 0; }
+                    else if (pos == 1 || pos == 4 || pos == 7) { x = 1; }
+                    else if (pos == 2 || pos == 5 || pos == 8) { x = 2; }
+
+                    // Get y based on pos
+                    if (pos == 0 || pos == 1 || pos == 2) { y = 0; }
+                    else if (pos == 3 || pos == 4 || pos == 5) { y = 1; }
+                    else if (pos == 6 || pos == 7 || pos == 8) { y = 2; }
+
+                    if (!gameBoard.board[y][x]) {
+                        validPlay = true;
+                        gameBoard.board[y][x] = mark;
+                        space.innerHTML = gameBoard.board[y][x];
+                        space.style.color = p ? 'green' : 'red'; // Player 1 (O) = Green, Player 2 (X) = Red
+                    }
+                }
+                checkWin(gameBoard);
+                endTurn();
+                updateDetails();
+            }, 100);
+        }
+    };
+
+    return { p, currentPlayer, markBoard, checkWin, updateDetails, endTurn, clearBoard, aiTurn };
 })();
 
 const createDetails = () => {
@@ -198,6 +239,8 @@ const createBoard = gameBoard => {
                     space.removeEventListener('mouseenter', spaceOnHover);
                     space.removeEventListener('mouseleave', spaceOffHover);
                     space.removeEventListener('click', spaceOnClick);
+
+                    if (ai) { game.aiTurn(); };
                 }
             };
 
