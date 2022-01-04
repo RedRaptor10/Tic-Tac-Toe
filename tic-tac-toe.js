@@ -7,15 +7,15 @@ const Player = () => {
 };
 
 let p1 = Player(), p2 = Player(), ai; // Initialize Player 1 and Player 2 Objects
-const gameContainer = document.getElementById('gameContainer');
+const gameContainer = document.getElementById('game-container');
 
 // Menu Module
 const menu = (() => {
     const startGame = () => {
         ai = document.getElementById('ai').checked;
-        p1.setName(document.getElementById('p1name').value);
+        p1.setName(document.getElementById('p1-name').value);
         if (ai) { p2.setName('AI'); }
-        else { p2.setName(document.getElementById('p2name').value); }
+        else { p2.setName(document.getElementById('p2-name').value); }
         gameContainer.innerHTML = '';
         createDetails();
         createBoard(gameBoard);
@@ -105,7 +105,7 @@ const game = (() => {
     };
 
     const updateDetails = () => {
-        const detailsContainer = document.getElementById('detailsContainer');
+        const detailsContainer = document.getElementById('details-container');
         const details = document.getElementById('details');
 
         if (gameOver && tieGame) { details.innerHTML = 'Tie Game!'; }
@@ -117,7 +117,7 @@ const game = (() => {
             const rematchButton = document.createElement('div');
 
             menu.id = 'menu';
-            rematchButton.id = 'rematchButton';
+            rematchButton.id = 'rematch-btn';
             rematchButton.innerHTML = 'Rematch?';
             rematchButton.addEventListener('click', () => { clearBoard(); });
 
@@ -192,7 +192,7 @@ const createDetails = () => {
     const detailsContainer = document.createElement('div');
     const details = document.createElement('div');
 
-    detailsContainer.id = 'detailsContainer';
+    detailsContainer.id = 'details-container';
     details.id = 'details';
 
     detailsContainer.append(details);
@@ -221,17 +221,19 @@ const createBoard = gameBoard => {
             space.setAttribute('class', 'space');
             space.style.width = spaceWidth - borderSize + 'px';
             space.style.height = spaceHeight - borderSize + 'px';
-            space.style.background = 'rgb(32,32,32)';
+            space.style.background = 'rgb(32, 32, 32)';
             space.style.borderRight = '1px solid white';
             space.style.borderBottom = '1px solid white';
+            space.style.cursor = 'pointer';
 
             // Event Listener Functions
-            const spaceOnHover = () => { space.style.background = 'rgb(64,64,64)'; };
-            const spaceOffHover = () => { space.style.background = 'rgb(32,32,32)'; };
+            const spaceOnHover = () => { space.style.background = 'rgb(64, 64, 64)'; };
+            const spaceOffHover = () => { space.style.background = 'rgb(32, 32, 32)'; };
             const spaceOnClick = () => {
                 // If Space is empty, mark Board
                 if (!gameBoard.board[y][x]) {
-                    space.style.background = 'rgb(32,32,32)';
+                    space.style.background = 'rgb(32, 32, 32)';
+                    space.style.cursor = 'default';
                     game.markBoard(space, gameBoard, x, y);
                     game.checkWin(gameBoard);
                     game.endTurn();

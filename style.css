@@ -1,7 +1,7 @@
 :root {
     --fontFamily: Arial;
-    --fontColor: rgb(255,255,255);
-    --backgroundColor: rgb(24,26,27);
+    --fontColor: rgb(255, 255, 255);
+    --backgroundColor: rgb(24, 24, 24);
     --border: 1px solid rgb(255,255,255);
 }
 
@@ -28,23 +28,35 @@ body {
     margin-bottom: 12px;
 }
 
-#playerNamesForm {
+#player-names-form {
     width: 100%;
     text-align: center;
 }
 
-#startGameButton, #rematchButton {
-    background: rgb(32,32,32);
+#start-game-btn {
+    background: rgb(0, 96, 0);
+}
+
+#start-game-btn:hover {
+    background: rgb(0, 128, 0);
+}
+
+#rematch-btn {
+    background: rgb(96, 0, 0);
+}
+
+#rematch-btn:hover {
+    background: rgb(128, 0, 0);
+}
+
+#start-game-btn, #rematch-btn {
     padding: 8px;
-    border: var(--border);
+    border: 0;
     border-radius: 4px;
+    cursor: pointer;
 }
 
-#startGameButton:hover, #rematchButton:hover {
-    background: rgb(64,64,64);
-}
-
-#detailsContainer {
+#details-container {
     width: 25%;
     height: 64px;
     margin-left: auto;
